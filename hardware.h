@@ -1,15 +1,15 @@
 #include <MKL05Z4.h>
 
-#define RED_LED_PORT 8
+#define RED_LED_PORT 	8
 #define GREEN_LED_PORT 9
 #define BLUE_LED_PORT 10
-
+// 0 2 3 4 5 6 7 11 13
 #define SW0 0
-#define SW1 11
-#define SW2 7
+#define SW1 3
+#define SW2 4
 
 #define DAC 1
-
+#define REF_FREQ_VALUE 23400 * 32
 
 enum LedColours{
 	RED = 8,

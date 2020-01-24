@@ -2,6 +2,14 @@
 
 uint8_t state = 0;
 #define PIT_IRQn (IRQn_Type) 22
+int g=0;
+extern uint8_t sw_on;
+
+uint8_t outL, outH; 
+uint8_t samples[32] = {152, 176, 199, 218, 234, 246, 253, 255, 253, 
+											 246, 234, 218, 199, 176, 152, 128, 103, 79,
+											 56, 37, 21, 9, 2, 0, 2, 9, 21, 37, 56, 79,
+											103, 128};
 
 void Clock_Init(){
 	SystemCoreClockUpdate();
@@ -18,9 +26,9 @@ void GPIO_Init(){
 	PORTB->PCR[BLUE_LED_PORT] = PORT_PCR_MUX(1UL);
 	
 	//inputs
-	PORTB->PCR[SW0] = PORT_PCR_MUX(1);
-	PORTB->PCR[SW1] = PORT_PCR_MUX(1);
-	PORTB->PCR[SW2] = PORT_PCR_MUX(1);
+	PORTB->PCR[SW0] = PORT_PCR_MUX(1) | PORT_PCR_PE_MASK | PORT_PCR_PS_MASK;
+	PORTB->PCR[SW1] = PORT_PCR_MUX(1) | PORT_PCR_PE_MASK | PORT_PCR_PS_MASK;
+	PORTB->PCR[SW2] = PORT_PCR_MUX(1) | PORT_PCR_PE_MASK | PORT_PCR_PS_MASK; 
 	
 	//DAC
 	PORTB->PCR[DAC] = PORT_PCR_MUX(1);
@@ -35,7 +43,7 @@ void DAC_Init(){
 }
 
 void PIT_Init(){
-	PIT->CHANNEL[0].LDVAL = 11990000;										//interrupt after ~500ms
+	PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/1000;										//
 	
 	NVIC_ClearPendingIRQ(PIT_IRQn);
 	NVIC_EnableIRQ(PIT_IRQn);
@@ -47,7 +55,7 @@ void PIT_Init(){
 }
 
 void PIT_IRQHandler(){
-	switch(state){
+	/*switch(state){
 		case 0:
 			LED_On(RED);
 			state = 1;
@@ -56,8 +64,14 @@ void PIT_IRQHandler(){
 			LED_Off(RED);
 			state = 0;
 		break;					
-	}
-	PIT->CHANNEL[0].TFLG &= PIT_TFLG_TIF_MASK;  //clear interrupt	
+	}*/
+	if (g == 32) g = 0;
+	
+		outL = 0xFF & (uint8_t)samples[g++];
+		outH = 0;//0x0F & (uint8_t)(output>>8);
+		DAC0->DAT->DATH = outH*sw_on;
+		DAC0->DAT->DATL = outL*sw_on;
+		PIT->CHANNEL[0].TFLG &= PIT_TFLG_TIF_MASK;  //clear interrupt	
 }
 
 void HW_Init(){
