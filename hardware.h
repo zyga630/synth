@@ -5,8 +5,18 @@
 #define BLUE_LED_PORT 10
 // 0 2 3 4 5 6 7 11 13
 #define SW0 0
-#define SW1 3
-#define SW2 4
+#define SW1 2
+#define SW2 3
+#define SW3 4
+#define SW4 5
+#define SW5 6
+#define SW6 7
+#define SW7 11
+#define SW8 9
+#define SW9 5
+#define SW10 6
+#define SW11 11
+
 
 #define DAC 1
 #define REF_FREQ_VALUE 23400 * 32
