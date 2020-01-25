@@ -19,36 +19,73 @@ int main(void){
 	LED_Off(GREEN);
 	LED_Off(BLUE);
 	
-	uint16_t output; 
-	
+ uint32_t input;	
+ uint16_t button;
 	while(1){
-			
-	
 		
-		 if ((FPTB->PDIR & 1UL<<SW0) == 0) {
-			sw_on = 1;
-			LED_On(RED);
-			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/C_NOTE;			
-		}
-		else {
-			LED_Off(RED);
-			sw_on=0;
-		}
-		if ((FPTB->PDIR & 1UL<<SW1) == 0) {
-		sw_on=0;
-			LED_On(GREEN);
-			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/E_NOTE;	
-		}
+		if (sw_on == 1) {LED_On(GREEN);}
 		else LED_Off(GREEN);
-		if ((FPTB->PDIR & 1UL<<SW2) == 0) {
 		
-			LED_On(BLUE);
-			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/G_NOTE;	
-			
-			
+		if ((FPTB->PDIR & 1UL<<SW0) == 0) {
+			sw_on=1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/C_NOTE;	
 		}
-		else LED_Off(BLUE);
+		
+		else if ((FPTB->PDIR & 1UL<<SW1) == 0) {
+			sw_on=1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/C_SHARP_NOTE;	
+		}
+				
+		else if ((FPTB->PDIR & 1UL<<SW2) == 0) {
+			sw_on=1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/D_NOTE;	
+		}
 	
+		else if ((FPTB->PDIR & 1UL<<SW3) == 0) {
+			sw_on = 1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/D_SHARP_NOTE;			
+		}
+		
+		else if ((FPTB->PDIR & 1UL<<SW4) == 0) {
+			sw_on = 1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/E_NOTE;			
+		}
+		
+		else if ((FPTB->PDIR & 1UL<<SW5) == 0) {
+			sw_on = 1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/F_NOTE;			
+		}
+		
+		else if ((FPTB->PDIR & 1UL<<SW6) == 0) {
+			sw_on = 1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/F_SHARP_NOTE;			
+		}
+		
+		else if ((FPTB->PDIR & 1UL<<SW7) == 0) {
+			sw_on = 1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/G_NOTE;			
+		}
+			
+		else if ((FPTA->PDIR & 1UL<<SW8) == 0) {
+			sw_on = 1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/G_SHARP_NOTE;			
+		}
+			
+	 else if ((FPTA->PDIR & 1UL<<SW9) == 0) {
+			sw_on = 1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/A_NOTE;			
+		}
+		
+		else if ((FPTA->PDIR & 1UL<<SW10) == 0) {
+			sw_on = 1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/A_SHARP_NOTE;			
+		}
+		
+		else if ((FPTA->PDIR & 1UL<<SW11) == 0) {
+			sw_on = 1;
+			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/B_NOTE;			
+		}
+		else sw_on=0;
 
 	}
 }
