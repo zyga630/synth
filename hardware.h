@@ -19,6 +19,7 @@
 
 
 #define DAC 1
+#define ADC 0
 #define REF_FREQ_VALUE 23400 * 32
 
 enum LedColours{
@@ -42,3 +43,5 @@ void LED_On(enum LedColours colour);
 void LED_Off(enum LedColours colour);
 
 void LED_Toggle(enum LedColours colour);
+
+void ADC_Init(void);
