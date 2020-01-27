@@ -16,10 +16,12 @@
 #define SW9 5
 #define SW10 6
 #define SW11 11
+#define SEL_EFF_SW 10
+#define SEL_SND_SW 8
 
 
-#define DAC 1
 #define ADC 0
+#define DAC 1
 #define REF_FREQ_VALUE 23400 * 32
 
 enum LedColours{
@@ -34,9 +36,15 @@ void GPIO_Init(void);
 
 void PIT_Init(void);
 
+void Touch_Init(void);
+
 void PIT_IRQHandler(void);
 
 void HW_Init(void);
+
+int Touch_Scan_LH(void);
+
+int Touch_Scan_HL(void);
 
 void LED_On(enum LedColours colour);
 
