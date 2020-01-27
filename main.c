@@ -2,27 +2,17 @@
 #include "hardware.h"
 #include "synth.h"
 
-	int i = 100;
-	uint8_t j; 
-	uint8_t sw_on = 0;
-//	int g = 0;
-//uint8_t outL, outH; 
-//uint8_t samples[32] = {152, 176, 199, 218, 234, 246, 253, 255, 253, 
-//											 246, 234, 218, 199, 176, 152, 128, 103, 79,
-//											 56, 37, 21, 9, 2, 0, 2, 9, 21, 37, 56, 79,
-//											103, 128};
+uint16_t adc=0; 
+uint8_t sw_on = 0;
+int effect_n = 0;
+int snd_n = 0;
+	
 int main(void){
 
 	HW_Init();
 
-	LED_Off(RED);
-	LED_Off(GREEN);
-	LED_Off(BLUE);
-	
- uint32_t input;	
- uint16_t button;
 	while(1){
-		
+			
 		if (sw_on == 1) {LED_On(GREEN);}
 		else LED_Off(GREEN);
 		
@@ -86,6 +76,21 @@ int main(void){
 			PIT->CHANNEL[0].LDVAL = REF_FREQ_VALUE/B_NOTE;			
 		}
 		else sw_on=0;
-
+		
+		if ((FPTA->PDIR & 1UL<<SEL_EFF_SW) == 0){
+			 effect_n++;
+			LED_Toggle(RED);
+		}
+		
+		
+		if ((FPTA->PDIR & 1UL<<SEL_SND_SW)==0){
+			 snd_n++;
+			LED_Toggle(BLUE);
+		}
+		
+		
+		
+		if (snd_n == 3) snd_n = 0;
+		if (effect_n == 3) effect_n = 0;
 	}
 }
